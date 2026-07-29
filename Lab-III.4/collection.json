@@ -1,0 +1,161 @@
+{
+  "info": {
+    "_postman_id": "c7321339-190f-45d3-84c2-5e841b8a79af",
+    "name": "Keycloak API Tests",
+    "description": "### Welcome to Postman! This is your first collection.\n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests  \n• Test your API in real-world scenarios  \n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56976486",
+    "_collection_link": "https://go.postman.co/collection/56976486-c7321339-190f-45d3-84c2-5e841b8a79af?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get data",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "postman-echo.com/get",
+          "host": [
+            "postman-echo",
+            "com"
+          ],
+          "path": [
+            "get"
+          ]
+        },
+        "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+      },
+      "response": []
+    },
+    {
+      "name": "Post data",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Successful POST request\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});",
+              ""
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "postman-echo.com/post",
+          "host": [
+            "postman-echo",
+            "com"
+          ],
+          "path": [
+            "post"
+          ]
+        },
+        "description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "if (!pm.environment.get(\"auth_token\")) {\r",
+          "\r",
+          "    pm.sendRequest({\r",
+          "        url: pm.environment.get(\"base_url\") +\r",
+          "             \"/realms/\" +\r",
+          "             pm.environment.get(\"realm\") +\r",
+          "             \"/protocol/openid-connect/token\",\r",
+          "\r",
+          "        method: \"POST\",\r",
+          "\r",
+          "        header: {\r",
+          "            \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+          "        },\r",
+          "\r",
+          "        body: {\r",
+          "            mode: \"urlencoded\",\r",
+          "            urlencoded: [\r",
+          "                {key:\"grant_type\",value:\"password\"},\r",
+          "                {key:\"client_id\",value:pm.environment.get(\"client_id\")},\r",
+          "                {key:\"client_secret\",value:pm.environment.get(\"client_secret\")},\r",
+          "                {key:\"username\",value:pm.environment.get(\"username\")},\r",
+          "                {key:\"password\",value:pm.environment.get(\"password\")}\r",
+          "            ]\r",
+          "        }\r",
+          "\r",
+          "    }, function(err,res){\r",
+          "\r",
+          "        if(err){\r",
+          "            console.log(err);\r",
+          "            return;\r",
+          "        }\r",
+          "\r",
+          "        var json = res.json();\r",
+          "\r",
+          "        pm.environment.set(\r",
+          "            \"auth_token\",\r",
+          "            json.access_token\r",
+          "        );\r",
+          "\r",
+          "    });\r",
+          "\r",
+          "}"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}

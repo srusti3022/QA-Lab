@@ -1,0 +1,52 @@
+{
+	"id": "056d814b-f46d-43c0-866f-eee94753be2c",
+	"name": "Keycloak Local",
+	"values": [
+		{
+			"key": "base_url",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "realm",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "client_id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "client_secret",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "username",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "password",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"color": 0,
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-07-29T08:03:39.570Z",
+	"_postman_exported_using": "Postman/12.21.1"
+}
